@@ -1,0 +1,9 @@
+var period = 10;
+exports.generate = () => {
+}
+
+exports.checkDate = token => {
+}
+
+exports.extend = token => {
+}
