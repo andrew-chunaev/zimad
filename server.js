@@ -22,5 +22,9 @@ app.post('/signup',(req, res) => {
 app.post('/signin',(req, res) => {
     AccessController.signin(req, res);
 });
+app.get('/logout',(req, res) => {
+    AccessController.logout(req, res);
+});
+
 
 app.listen(3001);
