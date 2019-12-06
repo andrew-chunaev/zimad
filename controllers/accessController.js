@@ -6,17 +6,21 @@ exports.signup = (req, res) => {
         res.status(400);
         res.send("Invalid details!");
     } else {
-        if (!UserStore.checkById(req.body.id) {
-            res.status(400);
-            res.send("User Already Exists! Login or choose another user id");
-        } else {
-            UserStore.create(req.body);
-            var token = BearerToken.generate({id: req.body.id});
-            console.log("token: ", token);
-            req.session.token = token;        
-            res.status(201);
-            res.send('');
-        }
+        var response = res;
+        var request = req;
+        UserStore.checkById(req.body.id, (count) => {
+            if (count != 0) { 
+                response.status(400);
+                response.send("User Already Exists! Login or choose another user id");
+            } else {
+                UserStore.create(request.body);
+                var token = BearerToken.generate({id: request.body.id});
+                console.log("token: ", token);
+                request.session.token = token;        
+                response.status(201);
+                response.send('');
+            }
+        });
     }    
 }
 
