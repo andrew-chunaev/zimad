@@ -15,7 +15,6 @@ exports.signup = (req, res) => {
             } else {
                 UserStore.create(request.body);
                 var token = BearerToken.generate({id: request.body.id});
-                console.log("token: ", token);
                 request.session.token = token;        
                 response.status(201);
                 response.send('');
@@ -25,4 +24,22 @@ exports.signup = (req, res) => {
 }
 
 exports.signin = (req, res) => {
+    if(!req.body.id || !req.body.password){
+        res.status(400);
+        res.send("Please enter both id and password");
+    } else {
+        var request = req;
+        var response = res;
+        UserStore.findByIdAndPassword(req.body.id, req.body.password, result => {
+            if (result.length == 0) {
+                response.status(401);
+                response.send("Invalid credentials!");
+            } else {
+                var token = BearerToken.generate({id: request.body.id});
+                request.session.token = token;        
+                response.status(200);
+                response.send('');
+            }
+        });               
+    }
 }

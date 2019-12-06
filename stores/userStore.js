@@ -17,8 +17,17 @@ exports.checkById = (id, callback) => {
     MongoClient.connect(url, (err, client) => {
         var db = client.db(dbName);
         db.collection(tableName).countDocuments({"id":id}, {limit:1}, (err, doc) => {
-            console.log("checked doc: ", doc);
-            callback(doc);
+             callback(doc);
+        });
+        client.close();
+    });
+}
+
+exports.findByIdAndPassword = (id, password, callback) => {
+    MongoClient.connect(url, (err, client) => {
+        var db = client.db(dbName);
+        db.collection(tableName).find({"id":id, "password": password}, {limit:1}, (err, doc) => {
+             callback(doc);
         });
         client.close();
     });
