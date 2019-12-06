@@ -26,7 +26,7 @@ exports.checkById = (id, callback) => {
 exports.findByIdAndPassword = (id, password, callback) => {
     MongoClient.connect(url, (err, client) => {
         var db = client.db(dbName);
-        db.collection(tableName).find({"id":id, "password": password}, {limit:1}, (err, doc) => {
+        db.collection(tableName).find({"id":id, "password": password}, (err, doc) => {
              callback(doc);
         });
         client.close();
