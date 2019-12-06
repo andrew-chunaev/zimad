@@ -20,4 +20,6 @@ exports.extend = token => {
 }
 
 exports.decode = token => {
+    var decoded = jwt.verify(token.token, key);
+    return decoded;
 }
